@@ -1,0 +1,16 @@
+-- " LSP config (the mappings used in the default file don't quite work right)
+vim.api.nvim_set_keymap('n',  'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n',  'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', { noremap = true, silent })
+vim.api.nvim_set_keymap('n',  'gr', '<cmd>lua vim.lsp.buf.references()<CR>', { noremap = true, silent })
+vim.api.nvim_set_keymap('n',  'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', { noremap = true, silent })
+vim.api.nvim_set_keymap('n',  'K', '<cmd>lua vim.lsp.buf.hover()<CR>', { noremap = true, silent })
+vim.api.nvim_set_keymap('n',  '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', { noremap = true, silent })
+vim.api.nvim_set_keymap('n',  '<C-n>', '<cmd>lua vim.diagnostic.goto_prev()<CR>', { noremap = true, silent })
+vim.api.nvim_set_keymap('n',  '<C-p>', '<cmd>lua vim.diagnostic.goto_next()<CR>', { noremap = true, silent })
+
+-- -- auto-format
+-- vim.cmd('autocmd')
+-- autocmd BufWritePre *.js lua vim.lsp.buf.formatting_sync(nil, 100)
+-- autocmd BufWritePre *.jsx lua vim.lsp.buf.formatting_sync(nil, 100)
+-- autocmd BufWritePre *.py lua vim.lsp.buf.formatting_sync(nil, 100)
+-- autocmd BufWritePre *.c lua vim.lsp.buf.formatting_sync(nil, 100)
