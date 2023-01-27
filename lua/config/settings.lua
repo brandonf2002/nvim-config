@@ -9,12 +9,9 @@ vim.opt.ruler = true
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.cmdheight=2
--- vim.opt.nowrap = true
 vim.opt.smarttab = true
 vim.opt.showtabline=2
-vim.opt.clipboard='unnamedplus'
--- vim.opt.nobackup = true
--- vim.opt.nowritebackup = true
+-- vim.opt.clipboard='unnamedplus'
 vim.opt.conceallevel = 0
 vim.opt.showtabline = 2
 vim.opt.updatetime = 300
@@ -26,7 +23,22 @@ vim.opt.cursorline = true
 vim.cmd('syntax enable')
 vim.cmd('autocmd BufEnter *.asm setfiletype nasm')
 
+vim.opt.swapfile = false
+vim.opt.backup = false
+vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.opt.undofile = true
+
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
-vim.cmd('set expandtab')
+vim.opt.expandtab = true
+
+vim.opt.termguicolors = true
+
+vim.opt.scrolloff = 8
+vim.opt.signcolumn = "yes"
+vim.opt.isfname:append("@-@")
+
+vim.opt.updatetime = 50
+
+vim.opt.colorcolumn = "80"

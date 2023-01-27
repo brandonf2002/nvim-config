@@ -8,15 +8,6 @@ vim.api.nvim_set_keymap('n', '<M-l>', ':vertical resize +2<CR>', { noremap = tru
 vim.api.nvim_set_keymap('n', '<TAB>', ':bnext<CR>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<S-TAB>', ':bprevious<CR>', { noremap = true })
 
--- Better window navigation
--- vim.api.nvim_set_keymap('n', '<C-j>', '<C-w>j', { noremap = true })
--- vim.api.nvim_set_keymap('n', '<C-k>', '<C-w>k', { noremap = true })
--- vim.api.nvim_set_keymap('n', '<C-h>', '<C-w>h', { noremap = true })
--- vim.api.nvim_set_keymap('n', '<C-l>', '<C-w>l', { noremap = true })
-
--- Search for word object under the cursor
--- vim.api.nvim_set_keymap('n', '<leader>*', ':%s/<c-r><c-w>//g<left><left>', { noremap = true })
-
 -- Remap leader h to unhighlight text
 vim.api.nvim_set_keymap('n', '<leader>h', ':noh<CR>', { noremap = true, silent = true })
 
@@ -31,7 +22,6 @@ vim.api.nvim_set_keymap('n', '<leader>nv', ':vsplit<CR>:enew<CR>', { noremap = t
 vim.api.nvim_set_keymap('n', '<leader>t', ':tabnew<CR>', { noremap = true, silent = true })
 
 -- Search and replace current word
--- vim.api.nvim_set_keymap('n', '<leader>s', '\"5yiw:%s/<C-r>5//g<left><left>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>*', ':%s/<c-r><c-w>//g<left><left>', { noremap = true })
 
 -- Better tab navigation
@@ -45,9 +35,6 @@ vim.api.nvim_set_keymap('n', '<leader>7', '7gt', { noremap = true, silent = true
 vim.api.nvim_set_keymap('n', '<leader>8', '8gt', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>9', '9gt', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>0', '0gt', { noremap = true, silent = true })
-
--- Surround visual selection with DEBUG ifdef
-vim.api.nvim_set_keymap('v', 'gd', 'c#ifdef DEBUG<esc>o#endif<esc>P', { noremap = true, silent = true })
 
 -- Just to add a semi colon at the end and go back to the same place
 vim.api.nvim_set_keymap('n', '<leader>;', 'msA;<ESC>`s', { noremap = true, silent = true })
@@ -68,3 +55,19 @@ vim.api.nvim_set_keymap('n', '<leader>cs', 'O/**<CR><CR><esc>a/<up> ', { noremap
 vim.api.nvim_set_keymap('n', '<leader>cm', 'A /*!<  */<left><left><left>', { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap('n', '<leader>ii', 'i#pragma once<CR><CR>#include <stdint.h><CR>#include <stdbool.h><CR><CR>#include "esp_err.h"<CR>#include "esp_log.h"<esc>', { noremap = true, silent = true })
+
+-- Surround visual selection with DEBUG ifdef
+vim.api.nvim_set_keymap('v', 'gd', 'c#ifdef DEBUG<esc>o#endif<esc>P', { noremap = true, silent = true })
+
+-- Move hightlighted text
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+
+-- make current file executable
+vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
+
+-- yank into and from system keyboard
+vim.keymap.set({"n", "v"}, "<leader>y", "\"+y")
+vim.keymap.set({"n", "v"}, "<leader>p", "\"+p")
+
+

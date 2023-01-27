@@ -36,14 +36,43 @@ return require('packer').startup(function(use)
   use 'rafi/awesome-vim-colorschemes'
 
   -- LSP
-  use 'neovim/nvim-lspconfig' -- enable LSP
-  use 'williamboman/nvim-lsp-installer' -- simple to use language server installer
+  -- use 'neovim/nvim-lspconfig' -- enable LSP
+  -- use 'williamboman/nvim-lsp-installer' -- simple to use language server installer
 
   -- Pretty stuff
   use 'kyazdani42/nvim-web-devicons'
-  use 'nvim-treesitter/nvim-treesitter'
   use 'hoob3rt/lualine.nvim'
 
   use 'akinsho/flutter-tools.nvim'
+
+  -- Treesitter
+  use ({'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'})
+  use 'nvim-treesitter/playground'
+
+  -- Undotree
+  use 'mbbill/undotree'
+
+  use {
+      'VonHeikemen/lsp-zero.nvim',
+      branch = 'v1.x',
+      requires = {
+          -- LSP Support
+          {'neovim/nvim-lspconfig'},             -- Required
+          {'williamboman/mason.nvim'},           -- Optional
+          {'williamboman/mason-lspconfig.nvim'}, -- Optional
+
+          -- Autocompletion
+          {'hrsh7th/nvim-cmp'},         -- Required
+          {'hrsh7th/cmp-nvim-lsp'},     -- Required
+          {'hrsh7th/cmp-buffer'},       -- Optional
+          {'hrsh7th/cmp-path'},         -- Optional
+          {'saadparwaiz1/cmp_luasnip'}, -- Optional
+          {'hrsh7th/cmp-nvim-lua'},     -- Optional
+
+          -- Snippets
+          {'L3MON4D3/LuaSnip'},             -- Required
+          {'rafamadriz/friendly-snippets'}, -- Optional
+      }
+  }
 
 end)
