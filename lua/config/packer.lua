@@ -8,7 +8,6 @@ return require('packer').startup(function(use)
 
   use {
       'nvim-telescope/telescope.nvim', tag = '0.1.1',
-      -- or                            , branch = '0.1.x',
       requires = { {'nvim-lua/plenary.nvim'} }
   }
 
@@ -51,6 +50,18 @@ return require('packer').startup(function(use)
 
   -- Undotree
   use 'mbbill/undotree'
+
+  -- LaTex
+  use 'lervag/vimtex'
+  use { "barreiroleo/ltex-extra.nvim" }
+
+  -- Markdown preview
+  use({
+      "iamcco/markdown-preview.nvim",
+      run = function() vim.fn["mkdp#util#install"]() end,
+  })
+
+--   use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
 
   use {
       'VonHeikemen/lsp-zero.nvim',

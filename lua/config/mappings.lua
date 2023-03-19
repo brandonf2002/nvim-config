@@ -12,10 +12,10 @@ vim.api.nvim_set_keymap('n', '<S-TAB>', ':bprevious<CR>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<leader>h', ':noh<CR>', { noremap = true, silent = true })
 
 -- Shortcuts to create splits and vertical splits
-vim.api.nvim_set_keymap('n', '<leader>x', ':split<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>s', ':split<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>v', ':vsplit<CR>', { noremap = true, silent = true })
 
-vim.api.nvim_set_keymap('n', '<leader>nx', ':split<CR>:enew<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>ns', ':split<CR>:enew<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>nv', ':vsplit<CR>:enew<CR>', { noremap = true, silent = true })
 
 -- Tab shortcuts
@@ -69,5 +69,3 @@ vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 -- yank into and from system keyboard
 vim.keymap.set({"n", "v"}, "<leader>y", "\"+y")
 vim.keymap.set({"n", "v"}, "<leader>p", "\"+p")
-
-
