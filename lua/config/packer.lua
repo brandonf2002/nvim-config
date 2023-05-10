@@ -22,21 +22,14 @@ return require('packer').startup(function(use)
   use 'nvim-lua/popup.nvim' -- An implementation of the Popup API from vim in Neovim
   use 'nvim-lua/plenary.nvim' -- Useful lua functions used ny lots of plugins
 
-  -- COQ completion
-  use { 'ms-jpq/coq_nvim', branch='coq' }
-  use { 'ms-jpq/coq.artifacts', branch='artifacts' }
-  use { 'ms-jpq/coq.thirdparty', branch='3p' }
-
   -- Useful Basics
   use 'tpope/vim-surround'
   use 'tpope/vim-commentary'
   use 'tpope/vim-fugitive'
   use 'tpope/vim-rhubarb'
-  use 'rafi/awesome-vim-colorschemes'
+  use 'tpope/vim-repeat'
 
-  -- LSP
-  -- use 'neovim/nvim-lspconfig' -- enable LSP
-  -- use 'williamboman/nvim-lsp-installer' -- simple to use language server installer
+  use 'rafi/awesome-vim-colorschemes'
 
   -- Pretty stuff
   use 'kyazdani42/nvim-web-devicons'
@@ -61,29 +54,34 @@ return require('packer').startup(function(use)
       run = function() vim.fn["mkdp#util#install"]() end,
   })
 
---   use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
-
   use {
-      'VonHeikemen/lsp-zero.nvim',
-      branch = 'v1.x',
-      requires = {
-          -- LSP Support
-          {'neovim/nvim-lspconfig'},             -- Required
-          {'williamboman/mason.nvim'},           -- Optional
-          {'williamboman/mason-lspconfig.nvim'}, -- Optional
+    'VonHeikemen/lsp-zero.nvim',
+    branch = 'v2.x',
+    requires = {
+      -- LSP Support
+      {'neovim/nvim-lspconfig'},             -- Required
+      {                                      -- Optional
+        'williamboman/mason.nvim',
+        run = function()
+          pcall(vim.cmd, 'MasonUpdate')
+        end,
+      },
+      {'williamboman/mason-lspconfig.nvim'}, -- Optional
 
-          -- Autocompletion
-          {'hrsh7th/nvim-cmp'},         -- Required
-          {'hrsh7th/cmp-nvim-lsp'},     -- Required
-          {'hrsh7th/cmp-buffer'},       -- Optional
-          {'hrsh7th/cmp-path'},         -- Optional
-          {'saadparwaiz1/cmp_luasnip'}, -- Optional
-          {'hrsh7th/cmp-nvim-lua'},     -- Optional
+      -- Autocompletion
+      {'hrsh7th/nvim-cmp'},     -- Required
+      {'hrsh7th/cmp-nvim-lsp'}, -- Required
 
-          -- Snippets
-          {'L3MON4D3/LuaSnip'},             -- Required
-          {'rafamadriz/friendly-snippets'}, -- Optional
-      }
+      {'hrsh7th/cmp-buffer'},       -- Optional
+      {'hrsh7th/cmp-path'},         -- Optional
+      {'saadparwaiz1/cmp_luasnip'}, -- Optional
+      {'hrsh7th/cmp-nvim-lua'},     -- Optional
+      {'uga-rosa/cmp-dictionary'}, -- Optional
+      {'f3fora/cmp-spell'},
+
+      {'L3MON4D3/LuaSnip'},     -- Required
+      {'rafamadriz/friendly-snippets'}, -- Optional
+    }
   }
 
 end)
