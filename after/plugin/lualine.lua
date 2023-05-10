@@ -112,7 +112,7 @@ ins_left {
       t = colors.red,
     }
     vim.api.nvim_command('hi! LualineMode guifg=' .. mode_color[vim.fn.mode()] .. ' guibg=' .. colors.bg)
-    return ''
+    return ''
   end,
   color = 'LualineMode',
   padding = { right = 1 },
@@ -120,6 +120,7 @@ ins_left {
 
 ins_left {
   -- filesize component
+  --
   'filesize',
   cond = conditions.buffer_not_empty,
 }
@@ -170,7 +171,7 @@ ins_left {
     end
     return msg
   end,
-  icon = ' LSP:',
+  icon = ' :',
   color = { fg = '#ffffff', gui = 'bold' },
 }
 
@@ -185,7 +186,7 @@ ins_right {
 ins_right {
   'fileformat',
   fmt = string.upper,
-  icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
+  icons_enabled = true, -- I think icons are cool but Eviline doesn't have them. sigh
   color = { fg = colors.green, gui = 'bold' },
 }
 
