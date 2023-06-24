@@ -19,7 +19,7 @@ vim.keymap.set('n', '<leader>ns', ':split<CR>:enew<CR>', { noremap = true, silen
 vim.keymap.set('n', '<leader>nv', ':vsplit<CR>:enew<CR>', { noremap = true, silent = true })
 
 -- Tab shortcuts
-vim.keymap.set('n', '<leader>t', ':tabnew<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>t', ':tabnew %<CR>', { noremap = true, silent = true })
 
 -- Search and replace current word
 vim.keymap.set('n', '<leader>*', ':%s/<c-r><c-w>//g<left><left>', { noremap = true })
@@ -54,7 +54,7 @@ vim.keymap.set('n', '<leader>cf', 'O/**<CR><CR><esc>a/<up> @brief ', { noremap =
 vim.keymap.set('n', '<leader>cs', 'O/**<CR><CR><esc>a/<up> ', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>cm', 'A /*!<  */<left><left><left>', { noremap = true, silent = true })
 
-vim.keymap.set('n', '<leader>ii', 'i#pragma once<CR><CR>#include <stdint.h><CR>#include <stdbool.h><CR><CR>#include "esp_err.h"<CR>#include "esp_log.h"<esc>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>ii', 'i#ifdef __cplusplus<CR>extern "C" {<CR>#endif<CR><CR>#pragma once<CR><CR>#include <stdint.h><CR>#include <stdbool.h><CR><CR>#include "esp_err.h"<CR>#include "esp_log.h"<CR><CR>#ifdef __cplusplus<CR>}<CR>#endif<esc>3ko<CR><esc>k', { noremap = true, silent = true })
 
 -- Surround visual selection with DEBUG ifdef
 vim.keymap.set('v', 'gd', 'c#ifdef DEBUG<esc>o#endif<esc>P', { noremap = true, silent = true })

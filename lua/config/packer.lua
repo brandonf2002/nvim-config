@@ -31,11 +31,23 @@ return require('packer').startup(function(use)
 
   use 'rafi/awesome-vim-colorschemes'
 
+  use 'zbirenbaum/copilot.lua'
+  use {
+    "zbirenbaum/copilot-cmp",
+    after = { "copilot.lua" },
+    config = function ()
+      require("copilot_cmp").setup()
+    end
+  }
+
+  -- use {'tzachar/cmp-tabnine', run='./install.sh', requires = 'hrsh7th/nvim-cmp'}
+
   -- Pretty stuff
   use 'kyazdani42/nvim-web-devicons'
   use 'hoob3rt/lualine.nvim'
 
   use 'akinsho/flutter-tools.nvim'
+  use 'p00f/clangd_extensions.nvim'
 
   -- Treesitter
   use ({'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'})
@@ -46,6 +58,7 @@ return require('packer').startup(function(use)
 
   -- LaTex
   use 'lervag/vimtex'
+
   use { "barreiroleo/ltex-extra.nvim" }
 
   -- Markdown preview

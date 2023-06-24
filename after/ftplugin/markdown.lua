@@ -22,6 +22,12 @@ require("cmp").setup({
       name = "dictionary",
       keyword_length = 2,
     },
+    {name = 'path'},
+    {name = 'nvim_lsp'},
+    {name = 'buffer', keyword_length = 3},
+    {name = 'luasnip', keyword_length = 2},
+    {name = 'copilot'},
+    -- {name = 'cmp_tabnine'},
   }
 })
 

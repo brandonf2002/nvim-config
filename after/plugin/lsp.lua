@@ -1,6 +1,4 @@
-local lsp = require("lsp-zero")
-
-lsp.preset("recommended")
+local lsp = require('lsp-zero').preset({})
 
 lsp.ensure_installed({
     'tsserver',
@@ -19,22 +17,8 @@ lsp.configure('lua_ls', {
     },
 })
 
-lsp.configure('clangd', {
-    -- cmd = {
-    --     "clangd",
-    --     '--query-driver=/home/brandon/.espressif/tools/xtensa-esp32-elf/esp-2021r2-patch3-8.4.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc',
-    -- },
-    filetypes = {"c", "cpp"},
-    -- init_options = {
-    --     clangdFileStatus = true,
-    --     compilationDatabasePath = "./build/",
-    --     usePlaceholders = true,
-    --     completeUnimported = true,
-    --     semanticHighlighting = true,
-    --     clangdSemanticHighlighting = true,
-    -- }
 
-})
+lsp.skip_server_setup({'clangd'})
 
 lsp.configure('ltex', {
     settings = {
@@ -51,68 +35,6 @@ local has_words_before = function()
     return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
-local cmp = require('cmp')
-local luasnip = require("luasnip")
-
-local cmp_mappings = lsp.defaults.cmp_mappings({
-    ['<TAB>'] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-            cmp.select_next_item()
-            -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable() 
-            -- they way you will only jump inside the snippet region
-        elseif luasnip.expand_or_jumpable() then
-            luasnip.expand_or_jump()
-        elseif has_words_before() then
-            cmp.complete()
-        else
-            fallback()
-        end
-    end, { "i", "s" }),
-
-    ['<S-TAB>'] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-            cmp.select_prev_item()
-        elseif luasnip.jumpable(-1) then
-            luasnip.jump(-1)
-        else
-            fallback()
-        end
-    end, { "i", "s" }),
-
-    ['<C-n>'] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-            cmp.select_next_item()
-            -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable() 
-            -- they way you will only jump inside the snippet region
-        elseif luasnip.expand_or_jumpable() then
-            luasnip.expand_or_jump()
-        elseif has_words_before() then
-            cmp.complete()
-        else
-            fallback()
-        end
-    end, { "i", "s" }),
-
-    ['<C-p>'] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-            cmp.select_prev_item()
-        elseif luasnip.jumpable(-1) then
-            luasnip.jump(-1)
-        else
-            fallback()
-        end
-    end, { "i", "s" }),
-    ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),
-    ["<C-Space>"] = cmp.mapping.complete(),
-})
-
--- cmp_mappings['<Tab>'] = nil
--- cmp_mappings['<S-Tab>'] = nil
-
-lsp.setup_nvim_cmp({
-    mapping = cmp_mappings
-})
 
 lsp.set_sign_icons({
     error = ' ',
@@ -138,6 +60,14 @@ end)
 
 lsp.setup()
 
+require('clangd_extensions').setup({
+    server = {
+        cmd = {'clangd', '--background-index', '--clang-tidy', '--completion-style=bundled', '--header-insertion=iwyu', '--suggest-missing-includes', '--pch-storage=memory', '--cross-file-rename', '--query-driver=/home/brandon/.espressif/tools/xtensa-esp32-elf/esp-2021r2-patch5-8.4.0/**/bin/*'}
+    }
+})
+
+local cmp = require('cmp')
+
 vim.diagnostic.config({
     virtual_text = true
 })
@@ -146,21 +76,46 @@ local cmp_action = require('lsp-zero').cmp_action()
 
 require('luasnip.loaders.from_vscode').lazy_load()
 
-cmp.setup({
-  sources = {
-    {name = 'path'},
-    {name = 'nvim_lsp'},
-    {name = 'buffer', keyword_length = 3},
-    {name = 'luasnip', keyword_length = 2},
-  },
-  mapping = {
-    ['<C-f>'] = cmp_action.luasnip_jump_forward(),
-    ['<C-b>'] = cmp_action.luasnip_jump_backward(),
-    ['<Tab>'] = cmp_action.luasnip_supertab(),
-    ['<S-Tab>'] = cmp_action.luasnip_shift_supertab(),
-  },
-  -- completion = {
-  --     preselect = 'item',
-  --   completeopt = 'menu,menuone,noinsert'
-  -- },
+vim.cmd('packadd copilot')
+require('copilot').setup({
+    suggestion = {enabled = false},
+    panel = {enabled = false},
 })
+
+require('copilot_cmp').setup()
+
+cmp.setup({
+    sources = {
+        {name = 'path'},
+        {name = 'nvim_lsp'},
+        {name = 'buffer', keyword_length = 3},
+        {name = 'luasnip', keyword_length = 2},
+        {name = 'copilot'},
+        -- {name = 'cmp_tabnine'},
+    },
+    mapping = {
+        ['<C-f>'] = cmp_action.luasnip_jump_forward(),
+        ['<C-b>'] = cmp_action.luasnip_jump_backward(),
+        ['<C-n>'] = cmp_action.tab_complete(),
+        ['<C-p>'] = cmp_action.select_prev_or_fallback(),
+        ['<CR>'] = cmp.mapping.confirm({
+            -- documentation says this is important.
+            -- I don't know why.
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = false,
+        })
+    },
+
+    sorting = {
+        comparators = {
+            cmp.config.compare.offset,
+            cmp.config.compare.exact,
+            cmp.config.compare.recently_used,
+            require("clangd_extensions.cmp_scores"),
+            cmp.config.compare.kind,
+            cmp.config.compare.sort_text,
+            cmp.config.compare.length,
+            cmp.config.compare.order,
+        },
+    },
+    })
